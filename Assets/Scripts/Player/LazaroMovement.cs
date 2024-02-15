@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.LowLevel;
 
@@ -13,6 +14,7 @@ public class LazaroMovement : MonoBehaviour
     private Actions inputs;
 
     public float speed;
+    public float jumpForce;
     private Vector3 moveDirection;
     private Animator animator;
     void Start()
@@ -24,6 +26,9 @@ public class LazaroMovement : MonoBehaviour
     void Awake() {
         inputs = new Actions();
         inputs.Lazaro.Movement.Enable();
+        inputs.Lazaro.Jump.Enable();
+
+        inputs.Lazaro.Jump.performed += OnJump;
     }
 
     void FixedUpdate() {
@@ -46,5 +51,12 @@ public class LazaroMovement : MonoBehaviour
             lazaro.transform.localPosition = Vector3.zero;
         }
         else { animator.SetBool("Walking", false); }
+    }
+
+    private void OnJump(InputAction.CallbackContext ctx)
+    {
+        rigidBody.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        animator.SetTrigger("Jump");
+        //if (IsGrounded.isGrounded) { }
     }
 }

@@ -30,13 +30,13 @@ public class LazaroDance : MonoBehaviour
     {
         switch(ctx.action.name.ToString()) {
             case "Dance 1":
-                StartCoroutine(PlayOnce("Dance Flair"));
+                animator.SetTrigger("Dance Flair");
             break;
             case "Dance 2":
-                StartCoroutine(PlayOnce("Dance HipHop"));
+                animator.SetTrigger("Dance HipHop");
             break;
             case "Dance 3":
-                StartCoroutine(PlayOnce("Dance Salsa"));
+                animator.SetTrigger("Dance Salsa");
             break;
             default:
                 Debug.Log(ctx.action.name.ToString() + " oh no");
@@ -44,10 +44,4 @@ public class LazaroDance : MonoBehaviour
         }
     }
 
-    IEnumerator PlayOnce(string animationName) 
-    {
-        animator.SetBool(animationName, true);
-        yield return new WaitForSeconds(1f);
-        animator.SetBool(animationName, false);
-    }
 }

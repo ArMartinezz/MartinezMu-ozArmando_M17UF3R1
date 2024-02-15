@@ -80,6 +80,15 @@ public partial class @Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""86621745-3b03-4f98-a239-9c150be6b3ec"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -192,6 +201,17 @@ public partial class @Actions: IInputActionCollection2, IDisposable
                     ""action"": ""Dance 3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""497ba4ba-fd99-4808-bfb8-940967ceee71"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -254,6 +274,7 @@ public partial class @Actions: IInputActionCollection2, IDisposable
         m_Lazaro_Dance1 = m_Lazaro.FindAction("Dance 1", throwIfNotFound: true);
         m_Lazaro_Dance2 = m_Lazaro.FindAction("Dance 2", throwIfNotFound: true);
         m_Lazaro_Dance3 = m_Lazaro.FindAction("Dance 3", throwIfNotFound: true);
+        m_Lazaro_Jump = m_Lazaro.FindAction("Jump", throwIfNotFound: true);
         // RadialMenu
         m_RadialMenu = asset.FindActionMap("RadialMenu", throwIfNotFound: true);
         m_RadialMenu_MouseMovement = m_RadialMenu.FindAction("MouseMovement", throwIfNotFound: true);
@@ -325,6 +346,7 @@ public partial class @Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Lazaro_Dance1;
     private readonly InputAction m_Lazaro_Dance2;
     private readonly InputAction m_Lazaro_Dance3;
+    private readonly InputAction m_Lazaro_Jump;
     public struct LazaroActions
     {
         private @Actions m_Wrapper;
@@ -335,6 +357,7 @@ public partial class @Actions: IInputActionCollection2, IDisposable
         public InputAction @Dance1 => m_Wrapper.m_Lazaro_Dance1;
         public InputAction @Dance2 => m_Wrapper.m_Lazaro_Dance2;
         public InputAction @Dance3 => m_Wrapper.m_Lazaro_Dance3;
+        public InputAction @Jump => m_Wrapper.m_Lazaro_Jump;
         public InputActionMap Get() { return m_Wrapper.m_Lazaro; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -362,6 +385,9 @@ public partial class @Actions: IInputActionCollection2, IDisposable
             @Dance3.started += instance.OnDance3;
             @Dance3.performed += instance.OnDance3;
             @Dance3.canceled += instance.OnDance3;
+            @Jump.started += instance.OnJump;
+            @Jump.performed += instance.OnJump;
+            @Jump.canceled += instance.OnJump;
         }
 
         private void UnregisterCallbacks(ILazaroActions instance)
@@ -384,6 +410,9 @@ public partial class @Actions: IInputActionCollection2, IDisposable
             @Dance3.started -= instance.OnDance3;
             @Dance3.performed -= instance.OnDance3;
             @Dance3.canceled -= instance.OnDance3;
+            @Jump.started -= instance.OnJump;
+            @Jump.performed -= instance.OnJump;
+            @Jump.canceled -= instance.OnJump;
         }
 
         public void RemoveCallbacks(ILazaroActions instance)
@@ -463,6 +492,7 @@ public partial class @Actions: IInputActionCollection2, IDisposable
         void OnDance1(InputAction.CallbackContext context);
         void OnDance2(InputAction.CallbackContext context);
         void OnDance3(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
     public interface IRadialMenuActions
     {
