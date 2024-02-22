@@ -11,16 +11,18 @@ public class LazaroMovement : MonoBehaviour
 {
     public GameObject lazaro;
     private Rigidbody rigidBody;
+    private Animator animator;
+    private IsGrounded isGrounded;
     private Actions inputs;
 
     public float speed;
     public float jumpForce;
     private Vector3 moveDirection;
-    private Animator animator;
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
-        animator = lazaro.GetComponent<Animator>();
+        animator = lazaro.GetComponent<Animator>(); 
+        isGrounded = GetComponent<IsGrounded>();
     }
 
     void Awake() {
@@ -51,12 +53,21 @@ public class LazaroMovement : MonoBehaviour
             lazaro.transform.localPosition = Vector3.zero;
         }
         else { animator.SetBool("Walking", false); }
+
+        // En medio de un salto
+        if (isGrounded.active && isGrounded.fall && rigidBody.velocity.y < 0) {}
+        {
+            Debug.Log(rigidBody.velocity.y);
+            animator.SetTrigger("Land");
+            isGrounded.active = false;
+        }
+
     }
 
     private void OnJump(InputAction.CallbackContext ctx)
     {
         rigidBody.AddForce(transform.up * jumpForce, ForceMode.Impulse);
         animator.SetTrigger("Jump");
-        //if (IsGrounded.isGrounded) { }
+        isGrounded.active = true;
     }
 }
