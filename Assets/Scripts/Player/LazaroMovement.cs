@@ -49,15 +49,14 @@ public class LazaroMovement : MonoBehaviour
         {
             animator.SetBool("Walking", true);
             // Si el modelo ha rotado o se ha movido después de una animación, resetea la rotación y posición dentro del objeto padre
-            lazaro.transform.localEulerAngles = Vector3.zero;
-            lazaro.transform.localPosition = Vector3.zero;
+            // lazaro.transform.localEulerAngles = Vector3.zero;
+            // lazaro.transform.localPosition = Vector3.zero;
         }
         else { animator.SetBool("Walking", false); }
 
         // En medio de un salto
         if (isGrounded.active && isGrounded.fall && rigidBody.velocity.y < 0) {}
         {
-            Debug.Log(rigidBody.velocity.y);
             animator.SetTrigger("Land");
             isGrounded.active = false;
         }
