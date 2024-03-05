@@ -45,21 +45,22 @@ public class LazaroMovement : MonoBehaviour
         rigidBody.AddForce(moveDirection.normalized * speed, ForceMode.Force);
 
         // Animar movimiento
-        if (moveDirection != Vector3.zero) 
-        {
-            animator.SetBool("Walking", true);
-            // Si el modelo ha rotado o se ha movido después de una animación, resetea la rotación y posición dentro del objeto padre
-            // lazaro.transform.localEulerAngles = Vector3.zero;
-            // lazaro.transform.localPosition = Vector3.zero;
-        }
-        else { animator.SetBool("Walking", false); }
+        
+        animator.SetBool("Walking", moveDirection != Vector3.zero);
+        // Si el modelo ha rotado o se ha movido después de una animación, resetea la rotación y posición dentro del objeto padre
+        // lazaro.transform.localEulerAngles = Vector3.zero;
+        // lazaro.transform.localPosition = Vector3.zero;
 
         // En medio de un salto
-        if (isGrounded.active && isGrounded.fall && rigidBody.velocity.y < 0) {}
+
+        animator.SetBool("Falling", isGrounded.falling);
+        
+        isGrounded.falling = rigidBody.velocity.y < -0.1f;
+        if (isGrounded.falling && isGrounded.land) 
         {
             animator.SetTrigger("Land");
-            isGrounded.active = false;
-        }
+            isGrounded.falling = false;
+        } 
 
     }
 
@@ -67,6 +68,5 @@ public class LazaroMovement : MonoBehaviour
     {
         rigidBody.AddForce(transform.up * jumpForce, ForceMode.Impulse);
         animator.SetTrigger("Jump");
-        isGrounded.active = true;
     }
 }
